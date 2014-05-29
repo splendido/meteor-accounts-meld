@@ -1,0 +1,8 @@
+{
+	"name": "accounts-meld",
+	"description": "",
+	"homepage": "https://github.com/splendido/meteor-accounts-meld",
+	"author": "Luca Mussi (https://github.com/splendido)",
+	"version": "0.0.0",
+	"git": "https://github.com/splendido/meteor-accounts-meld.git"
+}

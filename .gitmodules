@@ -1,0 +1,3 @@
+[submodule "lib/accounts-emails-field"]
+	path = lib/accounts-emails-field
+	url = https://github.com/splendido/meteor-accounts-emails-field.git
