@@ -1,6 +1,8 @@
 Package.on_use(function (api) {
     api.use([
         'accounts-base',
+        'check',
+        'underscore'
     ], ['server']);
 
     api.add_files([
@@ -17,21 +19,6 @@ Package.on_use(function (api) {
         'AccountsMeld',
         'MeldActions',
     ], ['server']);
-
-    api.use([
-        'minimongo',
-        'mongo-livedata',
-        'templating'
-    ], 'client');
-
-    api.add_files([
-        'lib/accounts-meld-client.html',
-        'lib/accounts-meld-client.js',
-    ], ['client']);
-
-    api.export([
-        'MeldActions',
-    ], ['client']);
 });
 
 
