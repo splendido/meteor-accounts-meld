@@ -47,16 +47,17 @@ and possibly more than these...
 # Features
 
 * Server-side code only!
+* Works with any login service, out of the box!
 * Fewest possible login operations to save round trip information exchanges with the server.
+* Optional callback to be used for document migration.
 * Customizable users' object melding not to loose any information.
-* Optional callback to be used for database document migration.
 * Optional interaction with the user (by means of a few additional templates not included with the core package) to ask whether to perform a meld action or not.
 
 
 <a name="Disclaimer"/>
 #Disclaimer
 
-*The present work is released, as is, under the MIT license and, in any case, for no reasons, the author can not be considered responsible for any information losses or any possible damages derived by its use.*
+*The present work is released, as is, under the MIT license and, in no cases, for no reasons, the author can be considered responsible for any information losses or any possible damages derived by its use.*
 
 For security reasons all the rationale behind accounts-meld is based upon **verified** email addresses. This is to prevent any malicious user to register herself using another user's email address and instantly being asked/allowed to meld the new account with the *old* one originally belonging to the user under **identity theft attack**!
 
@@ -64,7 +65,7 @@ All the logic put in place to detect pairs of accounts possibly belonging to the
 
 **I strongly suggest (and encourage) anyone possibly interested in using accounts-meld to personally check how the services that will be made available work. Especially, please verify whether it is possible to use them to login to another application before the registered email address was verified!**
 
-It would be very kind of you if any verification attempt, either successful or not, could be published among the [issues](https://github.com/splendido/meteor-accounts-emails-field/issues) for the repository of accounts-email field. The two major points being:
+It would be very kind of you if any verification attempt, either successful or not, could be published among the [issues](https://github.com/splendido/meteor-accounts-emails-field/issues) for the repository of accounts-email field. The three major points being:
 
 * asses whether there is a field, among the service information provided soon after the login, stating the email verification state (e.g. google provides the field `verified_email` while linkedin and facebook provides none)
 * confirm that the email address registered with the service is provided under the field `email` or the field `emailAddress` (linkedin)
