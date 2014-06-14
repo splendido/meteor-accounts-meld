@@ -6,7 +6,7 @@ Package.on_use(function (api) {
     ], ['server']);
 
     api.add_files([
-        'lib/accounts-emails-field/accounts-emails-field.js',
+        'lib/accounts-emails-field/lib/accounts-emails-field.js',
         'lib/accounts-meld-server.js',
         'lib/accounts-meld-hooks.js',
     ], ['server']);
