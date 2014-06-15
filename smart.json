@@ -3,6 +3,6 @@
 	"description": "Meteor package to meld user accounts registered with the same email address, or associate many different 3rd-party login services with the same user account.",
 	"homepage": "https://github.com/splendido/meteor-accounts-meld",
 	"author": "Luca Mussi (https://github.com/splendido)",
-	"version": "1.0.1",
+	"version": "0.1.0",
 	"git": "https://github.com/splendido/meteor-accounts-meld.git"
 }
