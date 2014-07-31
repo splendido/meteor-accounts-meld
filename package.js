@@ -1,3 +1,8 @@
+Package.describe (
+    {
+        "summary" : "Meteor package to meld user accounts registered with the same email address, or associate many different 3rd-party login services with the same user account."
+    }
+);
 Package.on_use(function (api) {
     api.use([
         'accounts-base',
