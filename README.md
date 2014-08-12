@@ -158,6 +158,7 @@ The package provides the following options:
 * `checkForConflictingServices` - optional Boolean, default false
 * `meldUserCallback` - optional function, default null
 * `meldDBCallback` - optional function, default null
+* `serviceAddedCallback` - optional function, default null
 
 
 <a name="askBeforeMeld"/>
@@ -329,6 +330,29 @@ AccountsMeld.configure({
 
 the two arguments passed in are the two ids associated with the source and destination users.
 
+#### serviceAddedCallback
+
+**Warning: only available on master branch and currently under testing!!!**
+
+In case a new service is added to the current user object without the need of any meld action, the `serviceAddedCallback` can be used to update, e.g., the user profile.
+*At the moment no particular checks are put in place, but this should be changed to something like what is done for `meldUserCallback` to prevent accidental damages to sensitive fields. Suggestions are welcome!*
+
+The following code provides and example about how to pick up new information for the user profile from a newly added service:
+
+```javascript
+var serviceAddedCallback = function(user_id, service_name){
+    if (service_name === 'foobook'){
+        var user = Meteor.users.findOne(user_id);
+        var link = user.services[service_name].link;
+        if (link)
+            Meteor.users.update(user_id, {$set: {"profile.fb_link": link}});
+    }
+};
+
+AccountsMeld.configure({
+    serviceAddedCallback: serviceAddedCallback
+});
+```
 
 
 <a name="MeldActions"/>
