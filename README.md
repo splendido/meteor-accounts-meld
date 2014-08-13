@@ -332,10 +332,9 @@ the two arguments passed in are the two ids associated with the source and desti
 
 #### serviceAddedCallback
 
-**Warning: only available on master branch and currently under testing!!!**
-
 In case a new service is added to the current user object without the need of any meld action, the `serviceAddedCallback` can be used to update, e.g., the user profile.
-*At the moment no particular checks are put in place, but this should be changed to something like what is done for `meldUserCallback` to prevent accidental damages to sensitive fields. Suggestions are welcome!*
+
+*Warning: Since no particular checks are put in place, it is up to the developer not to modify sensible fields like 'services', 'emails', 'registered_emails', etc.*
 
 The following code provides and example about how to pick up new information for the user profile from a newly added service:
 
