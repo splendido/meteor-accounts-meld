@@ -1,6 +1,6 @@
-if (Meteor.isServer) {
-    var http = Npm.require("http");
+var credentialSecret = 'credentialSecret';
 
+if (Meteor.isServer) {
     // server
     Meteor.publish("usersData", function () {
         return Meteor.users.find();
@@ -10,20 +10,24 @@ if (Meteor.isServer) {
     OAuth._requestHandlers["3"] = function(service, query, res) {
         // check if user authorized access
         if (!query.error) {
-            // Prepare the login results before returning.
-            // Run service-specific handler.
-            var oauthResult = service.handleOauthRequest(query);
-            // Store the login result so it can be retrieved in another
-            // browser tab by the result handler
-            OAuth._storePendingCredential(query.state, {
-                serviceName: service.serviceName,
-                serviceData: oauthResult.serviceData,
-                options: oauthResult.options
-            });
+          // Prepare the login results before returning.
+
+          // Run service-specific handler.
+          var oauthResult = service.handleOauthRequest(query);
+
+          var credentialToken = OAuth._credentialTokenFromQuery(query);
+
+          // Store the login result so it can be retrieved in another
+          // browser tab by the result handler
+          OAuth._storePendingCredential(credentialToken, {
+            serviceName: service.serviceName,
+            serviceData: oauthResult.serviceData,
+            options: oauthResult.options
+          }, credentialSecret);
         }
         // Either close the window, redirect, or render nothing
         // if all else fails
-        OAuth._renderOauthResults(res, query);
+        OAuth._renderOauthResults(res, query, credentialSecret);
     };
 
     Meteor.methods({
@@ -92,9 +96,12 @@ if (Meteor.isServer) {
         setupTests: function() {
             Meteor.users.remove({});
             MeldActions.remove({});
+            ServiceConfiguration.configurations.remove({});
         },
         unregisterService: function(serviceName) {
+            // Meteor.users._dropIndex('services.' + serviceName + '.id');
             OAuthTest.unregisterService(serviceName);
+            ServiceConfiguration.configurations.remove({service: serviceName});
         },
         setAskBeforeMeld: function(value){
             AccountsMeld.configure({askBeforeMeld: value});
@@ -318,7 +325,6 @@ if (Meteor.isClient) {
         };
     };
     var login3rdParty = function(test, expect) {
-        var credentialSecret = OAuth._retrieveCredentialSecret(this.credentialToken) || null;
         Accounts.callLoginMethod({
             methodArguments: [{oauth: {
                     credentialToken: this.credentialToken,
@@ -328,7 +334,6 @@ if (Meteor.isClient) {
         });
     };
     var login3rdPartyServiceAdded = function(test, expect) {
-        var credentialSecret = OAuth._retrieveCredentialSecret(this.credentialToken) || null;
         Accounts.callLoginMethod({
             methodArguments: [{oauth: {
                     credentialToken: this.credentialToken,
@@ -338,7 +343,6 @@ if (Meteor.isClient) {
         });
     };
     var login3rdPartyExistingServiceAdded = function(test, expect) {
-        var credentialSecret = OAuth._retrieveCredentialSecret(this.credentialToken) || null;
         Accounts.callLoginMethod({
             methodArguments: [{oauth: {
                     credentialToken: this.credentialToken,
@@ -348,7 +352,6 @@ if (Meteor.isClient) {
         });
     };
     var login3rdPartyExistingServiceMelded = function(test, expect) {
-        var credentialSecret = OAuth._retrieveCredentialSecret(this.credentialToken) || null;
         Accounts.callLoginMethod({
             methodArguments: [{oauth: {
                     credentialToken: this.credentialToken,
@@ -397,7 +400,9 @@ if (Meteor.isClient) {
             var credentialToken = Random.id();
             this.credentialToken = credentialToken;
             Meteor.http.post(
-                "/_oauth/" + serviceName + "?state=" + credentialToken,
+                "/_oauth/" +
+                serviceName +
+                "?state=" + OAuth._stateParam('popup', credentialToken),
                 justWait(test, expect)
             );
         };
