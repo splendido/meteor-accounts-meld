@@ -1,5 +1,8 @@
+'use strict';
+
 Package.describe({
-	summary: "Meteor package to link/meld user accounts registered with the same (verified) email address.",
+	summary: "Meteor package to link/meld user accounts registered " +
+	         "with the same (verified) email address.",
   version: "1.2.0",
   name: "splendido:accounts-meld",
   git: "https://github.com/splendido/meteor-accounts-meld.git",
@@ -15,7 +18,8 @@ Package.onUse(function(api) {
 		'splendido:accounts-emails-field@1.2.0',
 	], ['server']);
 
-	api.add_files([
+	api.addFiles([
+		'lib/_globals.js',
 		'lib/accounts-meld-server.js',
 		'lib/accounts-meld-hooks.js',
 	], ['server']);
@@ -50,7 +54,7 @@ Package.onTest(function(api) {
 		'underscore'
 	], ['client', 'server']);
 
-	api.add_files([
+	api.addFiles([
 		'tests/accounts-meld_tests.js',
 	], ['client', 'server']);
 });
