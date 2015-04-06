@@ -11,11 +11,11 @@ Package.onUse(function(api) {
 	api.use([
 		'accounts-base',
 		'check',
-		'underscore'
+		'underscore',
+		'splendido:accounts-emails-field@1.2.0',
 	], ['server']);
 
 	api.add_files([
-		'lib/accounts-emails-field/lib/accounts-emails-field.js',
 		'lib/accounts-meld-server.js',
 		'lib/accounts-meld-hooks.js',
 	], ['server']);
@@ -40,8 +40,8 @@ Package.onTest(function(api) {
 		'accounts-password',
 		'http',
 		'oauth',
-		'oauth-encryption',
 		'oauth2',
+		'oauth-encryption',
 		'random',
 		'service-configuration',
 		'srp',
