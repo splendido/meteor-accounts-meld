@@ -3,7 +3,7 @@
 Package.describe({
 	summary: "Meteor package to link/meld user accounts registered " +
 	         "with the same (verified) email address.",
-  version: "1.2.0",
+  version: "1.3.0",
   name: "splendido:accounts-meld",
   git: "https://github.com/splendido/meteor-accounts-meld.git",
 });
