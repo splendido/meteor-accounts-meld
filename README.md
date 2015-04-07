@@ -1,9 +1,10 @@
 [![Build Status](https://travis-ci.org/splendido/meteor-accounts-meld.svg?branch=master)](https://travis-ci.org/splendido/meteor-accounts-meld)
-accounts-meld
-=============
+
+# accounts-meld
 
 Meteor package to meld user accounts registered with the same email address, or simply associate many different 3rd-party login services with the same user account.
 
+## Some Details
 Originally conceived as a core part of the package [accounts-templates-core](https://atmospherejs.com/package/accounts-templates-core), was finally released as an independent package to let everyone interested exploit it their own way.
 
 For a very basic working example [test-account-meld](https://github.com/splendido/test-accounts-meld) can be cloned and configured with the preferred login services specifying their configuration inside [this](https://github.com/splendido/test-accounts-meld/blob/master/server/accounts.js) file.
@@ -32,7 +33,7 @@ Enjoy!
 
 
 <a name="Introduction"/>
-# Introduction
+## Introduction
 
 accounts-meld tried to address the following aspects:
 
@@ -52,7 +53,7 @@ and possibly more than these...
 
 
 <a name="Features"/>
-# Features
+## Features
 
 * Server-side code only!
 * Works with any login service, out of the box!
@@ -64,7 +65,7 @@ and possibly more than these...
 
 
 <a name="Disclaimer"/>
-#Disclaimer
+## Disclaimer
 
 *The present work is released, as is, under the MIT license and, in no cases, for no reasons, the author can be considered responsible for any information losses or any possible damages derived by its use.*
 
@@ -110,14 +111,14 @@ Many thanks also to everyone else which already provided, or will be, kind words
 
 
 <a name="Documentation"/>
-# Documentation
+## Documentation
 
-accounts-meld exploits a couple of server-side *hooks* to check email addresses associated with users' account. The aim is to permit different accounts belonging to the same user to be melded together in a unique account without losing any information associated with them. This means any field present inside the user objects as well as migrating all documents inside the database to the *surviving* account. 
+accounts-meld exploits a couple of server-side *hooks* to check email addresses associated with users' account. The aim is to permit different accounts belonging to the same user to be melded together in a unique account without losing any information associated with them. This means any field present inside the user objects as well as migrating all documents inside the database to the *surviving* account.
 
 
 
 <a name="Logic"/>
-## Logic
+### Logic
 There are two different logic in place.
 
 The first one checks all login attempts looking for other accounts with at least one verified email address in common. If one such email is found the two accounts will be elected for melding (see below). In case of a meld action, the *surviving* user account will be the one just logged in.
@@ -127,7 +128,7 @@ The second one permits the currently logged in user to add new services to its a
 
 
 <a name="Melding"/>
-## Melding
+### Melding
 Depending on the application, account-meld can be configured to automatically perform any possible accounts melding rather than let the user choose whether to meld or not to meld... This can be regulated with the configuration parameter [`askBeforeMeld`](#askBeforeMeld). In case you do not need automatic melding and want to let the user choose, some client-side template must be put in place. These are **not included** into accounts-meld for many reasons. The first one being for package size to be kept low and not to pollute the client with useless templates. While the most important one is every application has it's own logic, style and peculiarities: precooked client-side templates won't fit!
 
 By the way, to get you up quickly as well as to show what could be done client-side, the package [accounts-meld-client-bootstrap](https://atmospherejs.com/package/accounts-meld-client-bootstrap), styled for bootstrap, allows for very basic user interaction.
@@ -135,7 +136,7 @@ By the way, to get you up quickly as well as to show what could be done client-s
 
 
 <a name="PackageConfiguration"/>
-## Package Configuration
+### Package Configuration
 
 There are some configuration options that can be used to customize the behaviour of account-meld. The only thing to do to configure your preferences is call `AccountsMeld.configure` within a server-side file. As an example, you could create the file `server/configuration/accounts_meld.js` containing the following:
 
@@ -355,7 +356,7 @@ AccountsMeld.configure({
 
 
 <a name="MeldActions"/>
-## MeldActions
+### MeldActions
 
 The package accounts-meld exports a collection called `MeldActions` which is used for client-server communication in case [`askBeforeMeld`](#askBeforeMeld) was set to `true`.
 
@@ -370,7 +371,7 @@ For reading more about how to use it, please have a look at the beginning of the
 
 
 <a name="Ensure Everything Works"/>
-# How to Ensure Everything Works as Expected
+## How to Ensure Everything Works as Expected
 
 * Configure `accounts-password` to enforce email address validation (e.g. using some sign-up sign-in flow involving [`Accounts.sendVerificationEmail`](http://docs.meteor.com/#accounts_sendverificationemail)) and forbidding sign-in unless the email was verified)
 * Use only 3rd-party services which grants you a way to check whether the email address was verified or not (e.g. not using those services allowing sign-in with non-verified emails, or exploiting some login hook like [`Accounts.validateLoginAttempt`](http://docs.meteor.com/#accounts_validateloginattempt) to check the email status by using some service specific API)
@@ -378,7 +379,7 @@ For reading more about how to use it, please have a look at the beginning of the
 
 
 <a name="BehindTheScenes"/>
-# Behind The Scenes
+## Behind The Scenes
 
 To intercept 3rd-party services log in attempts the function [`Accounts.updateOrCreateUserFromExternalService`](https://github.com/meteor/meteor/blob/devel/packages/accounts-base/accounts_server.js#L1102) is substituted with another one from accounts-meld which, in turn calls the original one (if need be). This is to allow adding new services to the currently signed in user.
 
