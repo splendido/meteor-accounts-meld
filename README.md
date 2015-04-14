@@ -56,13 +56,19 @@ and possibly more than these...
 ## Features
 
 * Server-side code only!
-* Works with any login service, out of the box!
 * Fewest possible login operations to save round trip information exchanges with the server.
 * Optional callback to be used for document migration.
 * Customizable users' object melding not to loose any information.
 * Optional interaction with the user (by means of a few additional templates not included with the core package) to ask whether to perform a meld action or not.
+* Will meld accounts from the following login services (more will be added, see the *Disclaimer* chapter below):
 
-
+|  Service  | Will meld  |  Reason
+| :-------- | :--------: | :-----------
+| Twitter   |    No      | Twitter does not provide any email information.
+| Facebook  | -- Yes --  | Facebook provides the user email + Facebook enrolment process ensures this email is verified.
+| Google    | -- Yes --  | Google provides a "verified email" field.
+| GitHub    |    No      | GitHub does not provide a way to know if the user email is verified.
+| LinkedIn  | -- Yes --  | LinkedIn provides the user email + LinkedIn enrolment process ensures this email is verified
 
 <a name="Disclaimer"/>
 ## Disclaimer
