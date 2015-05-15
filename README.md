@@ -85,7 +85,7 @@ All the logic put in place to detect pairs of accounts possibly belonging to the
 
 It would be very kind of you if any verification attempt, either successful or not, could be published among the [issues](https://github.com/splendido/meteor-accounts-emails-field/issues) for the repository of accounts-email field. The three major points being:
 
-* asses whether there is a field, among the service information provided soon after the login, stating the email verification state (e.g. google provides the field `verified_email` while linkedin and facebook provides none)
+* assess whether there is a field, among the service information provided soon after the login, stating the email verification state (e.g. google provides the field `verified_email` while linkedin and facebook provides none)
 * confirm that the email address registered with the service is provided under the field `email` or the field `emailAddress` (linkedin)
 * try to register a new user with a specific service and next try to use the same service to login into the application before confirming/verifying the email ownership.
 
