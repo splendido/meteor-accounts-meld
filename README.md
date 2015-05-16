@@ -265,7 +265,12 @@ This is why `meldUserCallback` let you specify a callback to deal with the two u
 
 ```javascript
 meldUserCallback = function(src_user, dst_user){
-    // modify the dst_user object here (in place) if there is something inside src_user that must be preserved
+    // create a melded user object here and return it
+    var meldedUser = _.clone(dst_user);
+    // meldedUser.createdAt = src_user.createdAt;
+    // ...
+
+    return meldedUser;
 };
 
 AccountsMeld.configure({
@@ -279,10 +284,10 @@ And this is how it is called:
 
 ```javascript
 var meldedUser = meldUserCallback(src_user, dst_user);
-    meldedUser = _.omit(meldedUser, '_id', 'services', 'emails', 'registered_emails');
-    _.each(meldedUser, function(value, key){
-        dst_user[key] = value;
-    });
+meldedUser = _.omit(meldedUser, '_id', 'services', 'emails', 'registered_emails');
+_.each(meldedUser, function(value, key){
+    dst_user[key] = value;
+});
 ```
 
 In particular the line
