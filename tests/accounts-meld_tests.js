@@ -733,9 +733,9 @@ if (Meteor.isClient) {
 			registerService(serviceName, userToLogInWith3rdParty),
 			start3rdPartyLogin(serviceName),
 			login3rdParty,
-			loggedInAs(userToLogInWith3rdParty),
+			loggedInAs(usersToMeld[0]),
 			assertUsersCount(otherUsers.length + 1),
-			assertUsersMissing(usersToMeld),
+			assertUsersMissing(userToLogInWith3rdParty),
 			logoutStep,
 			unregisterService(serviceName),
 			// Then, remakes same tests with askBeforeMeld = true
@@ -764,7 +764,7 @@ if (Meteor.isClient) {
 	);
 	test3rdPartyLoginWithUsersWithMeld(testSequence,
 		userFB1V,
-		[userPwd1V, userLO1V],
+		[userLO1V, userPwd1V],
 		[userFB1NV, userFB2NV, userFB2V, userLO1NV, userLO2NV, userLO2V]
 	);
 	testSequence.push(resetAll);
