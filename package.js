@@ -16,6 +16,8 @@ Package.onUse(function(api) {
 		'check',
 		'underscore',
 		'splendido:accounts-emails-field@1.2.0',
+		'brettle:accounts-multiple@0.3.0',
+		'brettle:accounts-add-service@0.3.0',
 	], ['server']);
 
 	api.addFiles([
