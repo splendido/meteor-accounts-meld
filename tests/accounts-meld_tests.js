@@ -13,6 +13,9 @@
 var credentialSecret = 'credentialSecret';
 
 if (Meteor.isServer) {
+	// Disable default DDP rate limiter
+	Accounts.removeDefaultRateLimit();
+
 	// server
 	Meteor.publish("usersData", function() {
 		return Meteor.users.find();
@@ -108,6 +111,7 @@ if (Meteor.isServer) {
 				service: serviceName
 			});
 			// register a fake login service
+			Accounts.oauth.registerService(serviceName);
 			OAuth.registerService(serviceName, 3, null, function() {
 				return {
 					options: {
@@ -127,6 +131,7 @@ if (Meteor.isServer) {
 		},
 		unregisterService: function(serviceName) {
 			// Meteor.users._dropIndex('services.' + serviceName + '.id');
+			Accounts.oauth.unregisterService(serviceName);
 			OAuthTest.unregisterService(serviceName);
 			ServiceConfiguration.configurations.remove({
 				service: serviceName
