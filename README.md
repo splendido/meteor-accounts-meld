@@ -388,6 +388,7 @@ For reading more about how to use it, please have a look at the beginning of the
 
 * Configure `accounts-password` to enforce email address validation (e.g. using some sign-up sign-in flow involving [`Accounts.sendVerificationEmail`](http://docs.meteor.com/#accounts_sendverificationemail)) and forbidding sign-in unless the email was verified)
 * Use only 3rd-party services which grants you a way to check whether the email address was verified or not (e.g. not using those services allowing sign-in with non-verified emails, or exploiting some login hook like [`Accounts.validateLoginAttempt`](http://docs.meteor.com/#accounts_validateloginattempt) to check the email status by using some service specific API)
+* If you use [aldeed:collection2](https://github.com/aldeed/meteor-collection2#attach-a-schema-to-meteorusers) on `Meteor.users`, you need to add the following field to your schema or you will get a collection2 exception each time a user logs in: ```registered_emails: { type: [Object], blackbox: true, optional: true }``` this comes from the use of `splendido:accounts-emails-field`, see the original mention to the need to extend the schema [here](https://github.com/splendido/meteor-accounts-emails-field#usage)
 
 
 
