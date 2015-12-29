@@ -383,7 +383,7 @@ For reading more about how to use it, please have a look at the beginning of the
 
 
 
-<a name="Ensure Everything Works"/>
+<a name="EnsureEverythingWorks"/>
 ## How to Ensure Everything Works as Expected
 
 * Configure `accounts-password` to enforce email address validation (e.g. using some sign-up sign-in flow involving [`Accounts.sendVerificationEmail`](http://docs.meteor.com/#accounts_sendverificationemail)) and forbidding sign-in unless the email was verified)
