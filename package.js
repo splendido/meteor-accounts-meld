@@ -31,6 +31,7 @@ Package.onUse(function(api) {
 	api.export([
 		'AccountsMeld',
 		'MeldActions',
+		'checkForMelds'
 	], ['server']);
 });
 
