@@ -67,7 +67,7 @@ and possibly more than these...
 | Twitter   |    No      | Twitter does not provide any email information.
 | Facebook  | -- Yes --  | Facebook provides the user email + Facebook enrolment process ensures this email is verified.
 | Google    | -- Yes --  | Google provides a "verified email" field.
-| GitHub    |    No      | GitHub does not provide a way to know if the user email is verified.
+| GitHub    | -- Yes --  | GitHub provides a "verified" field along with the email.
 | LinkedIn  | -- Yes --  | LinkedIn provides the user email + LinkedIn enrolment process ensures this email is verified
 
 To add support for LinkedIn, use the package [pauli:accounts-linkedin](https://github.com/PauliBuccini/meteor-accounts-linkedin/) and add the `r_emailaddress` permission to your LinkedIn app (section *OAuth User Agreement* of the app settings).
