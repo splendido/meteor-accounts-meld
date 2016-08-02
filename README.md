@@ -58,7 +58,7 @@ and possibly more than these...
 * Server-side code only!
 * Fewest possible login operations to save round trip information exchanges with the server.
 * Optional callback to be used for document migration.
-* Customizable users' object melding not to loose any information.
+* Customizable users' object melding not to lose any information.
 * Optional interaction with the user (by means of a few additional templates not included with the core package) to ask whether to perform a meld action or not.
 * Will meld accounts from the following login services (more will be added, see the *Disclaimer* chapter below):
 
@@ -259,7 +259,7 @@ It mostly up to you judging whether this is bad or not...
 
 #### meldUserCallback
 
-One of the aim to accounts-meld is not to loose anything about any two melded accounts! But since the user object can be *personalized* differently by different applications it is very unlikely to have something suits everyone's needs.
+One of the aim to accounts-meld is not to lose anything about any two melded accounts! But since the user object can be *personalized* differently by different applications it is very unlikely to have something suits everyone's needs.
 
 This is why `meldUserCallback` let you specify a callback to deal with the two user object under melding. Below is an example about how to define such a callback.
 
@@ -317,7 +317,7 @@ which could be fine in many cases...
 
 #### meldDBCallback
 
-Another callback not to loose anything can be provided (and should be) to let you change any reference to the `src_user._id` you might have inside your DB.
+Another callback not to lose anything can be provided (and should be) to let you change any reference to the `src_user._id` you might have inside your DB.
 This is where you can migrate documents belonging to (or simply referencing) the user that will be deleted to the one that will *survive*.
 The following code shows how to do it:
 
