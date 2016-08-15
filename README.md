@@ -32,7 +32,7 @@ Enjoy!
 
 
 
-<a name="Introduction"/>
+<a name="Introduction"></a>
 ## Introduction
 
 accounts-meld tried to address the following aspects:
@@ -52,7 +52,7 @@ and possibly more than these...
 
 
 
-<a name="Features"/>
+<a name="Features"></a>
 ## Features
 
 * Server-side code only!
@@ -72,7 +72,7 @@ and possibly more than these...
 
 To add support for LinkedIn, use the package [pauli:accounts-linkedin](https://github.com/PauliBuccini/meteor-accounts-linkedin/) and add the `r_emailaddress` permission to your LinkedIn app (section *OAuth User Agreement* of the app settings).
 
-<a name="Disclaimer"/>
+<a name="Disclaimer"></a>
 ## Disclaimer
 
 *The present work is released, as is, under the MIT license and, in no cases, for no reasons, the author can be considered responsible for any information losses or any possible damages derived by its use.*
@@ -105,7 +105,7 @@ A big thank in advance to anyone contributing!
 
 
 
-<a name="Acknowledgements"/>
+<a name="Acknowledgements"></a>
 #Acknowledgements
 
 Undeniably, the package [accounts-merge](https://atmospherejs.com/package/accounts-merge) together with discussions directly entertained with its author @lirbank played a big role in writing this package. Actually at the very beginning accounts-meld was not even conceived as a package itself: only after a bit of googling around and various thinking the decision was taken, mainly because there was quite a bit of work involved and different projects might had different peculiar purposes.
@@ -118,14 +118,14 @@ Many thanks also to everyone else which already provided, or will be, kind words
 
 
 
-<a name="Documentation"/>
+<a name="Documentation"></a>
 ## Documentation
 
 accounts-meld exploits a couple of server-side *hooks* to check email addresses associated with users' account. The aim is to permit different accounts belonging to the same user to be melded together in a unique account without losing any information associated with them. This means any field present inside the user objects as well as migrating all documents inside the database to the *surviving* account.
 
 
 
-<a name="Logic"/>
+<a name="Logic"></a>
 ### Logic
 There are two different logic in place.
 
@@ -135,7 +135,7 @@ The second one permits the currently logged in user to add new services to its a
 
 
 
-<a name="Melding"/>
+<a name="Melding"></a>
 ### Melding
 Depending on the application, account-meld can be configured to automatically perform any possible accounts melding rather than let the user choose whether to meld or not to meld... This can be regulated with the configuration parameter [`askBeforeMeld`](#askBeforeMeld). In case you do not need automatic melding and want to let the user choose, some client-side template must be put in place. These are **not included** into accounts-meld for many reasons. The first one being for package size to be kept low and not to pollute the client with useless templates. While the most important one is every application has it's own logic, style and peculiarities: precooked client-side templates won't fit!
 
@@ -143,7 +143,7 @@ By the way, to get you up quickly as well as to show what could be done client-s
 
 
 
-<a name="PackageConfiguration"/>
+<a name="PackageConfiguration"></a>
 ### Package Configuration
 
 There are some configuration options that can be used to customize the behaviour of account-meld. The only thing to do to configure your preferences is call `AccountsMeld.configure` within a server-side file. As an example, you could create the file `server/configuration/accounts_meld.js` containing the following:
@@ -170,7 +170,7 @@ The package provides the following options:
 * `serviceAddedCallback` - optional function, default null
 
 
-<a name="askBeforeMeld"/>
+<a name="askBeforeMeld"></a>
 #### askBeforeMeld
 
 This flags specifies whether accounts melding should be performed automatically without warning the user or not.
@@ -368,7 +368,7 @@ AccountsMeld.configure({
 ```
 
 
-<a name="MeldActions"/>
+<a name="MeldActions"></a>
 ### MeldActions
 
 The package accounts-meld exports a collection called `MeldActions` which is used for client-server communication in case [`askBeforeMeld`](#askBeforeMeld) was set to `true`.
@@ -383,7 +383,7 @@ For reading more about how to use it, please have a look at the beginning of the
 
 
 
-<a name="Ensure Everything Works"/>
+<a name="Ensure Everything Works"></a>
 ## How to Ensure Everything Works as Expected
 
 * Configure `accounts-password` to enforce email address validation (e.g. using some sign-up sign-in flow involving [`Accounts.sendVerificationEmail`](http://docs.meteor.com/#accounts_sendverificationemail)) and forbidding sign-in unless the email was verified)
@@ -392,7 +392,7 @@ For reading more about how to use it, please have a look at the beginning of the
 
 
 
-<a name="BehindTheScenes"/>
+<a name="BehindTheScenes"></a>
 ## Behind The Scenes
 
 To intercept 3rd-party services log in attempts the function [`Accounts.updateOrCreateUserFromExternalService`](https://github.com/meteor/meteor/blob/devel/packages/accounts-base/accounts_server.js#L1102) is substituted with another one from accounts-meld which, in turn calls the original one (if need be). This is to allow adding new services to the currently signed in user.
