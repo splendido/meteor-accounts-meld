@@ -131,8 +131,7 @@ There are two different logic in place.
 
 The first one checks all login attempts looking for other accounts with at least one verified email address in common. If one such email is found the two accounts will be elected for melding (see below). In case of a meld action, the *surviving* user account will be the one just logged in.
 
-The second one permits the currently logged in user to add new services to its account: a call to `Meteor.loginWithSomething()` will be intercepted so to add the new service data to the current user object. In case another account using the same service associated with the same user id exists, the two accounts will be elected for melding (see below) and in case of a meld action is performed the *surviving* user account will be the currently logged in one. Although it is possible to add 3rd-party services to accounts created with classical sign-up flow (provided by `accounts-password`), at the moment it is **not** possible to do the contrary: a call to `Meteor.loginWithPassword` will log out the current user and login the one associated with the password service. After this, **only in case the email used with the password service is already verified**, the two account will be elected for melding (see below). In case of a meld action, the *surviving* user account will be the one originally associated with the password service.
-
+The second one permits the currently logged in user to add new services to its account: a call to `Meteor.loginWithSomething()` will be intercepted so to add the new service data to the current user object. In case another account using the same service associated with the same user id exists, the two accounts will be elected for melding (see below) and in case of a meld action is performed the *surviving* user account will be the currently logged in one.
 
 
 <a name="Melding"/>

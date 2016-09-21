@@ -172,7 +172,7 @@ if (Meteor.isClient) {
 	// User registered with service password with non-verified email
 	var userPwd1NV = {
 		username: Random.id(),
-		email: "pippo1@example",
+		email: "pippo1@example.com",
 		emails: [{
 			address: "pippo1@example.com",
 			verified: false
@@ -193,7 +193,7 @@ if (Meteor.isClient) {
 	// User registered with service password with Verified email
 	var userPwd1V = {
 		username: Random.id(),
-		email: "pippo1@example",
+		email: "pippo1@example.com",
 		emails: [{
 			address: "pippo1@example.com",
 			verified: true
@@ -214,7 +214,7 @@ if (Meteor.isClient) {
 	// User registered with service password with non-Verified email
 	var userPwd2NV = {
 		username: Random.id(),
-		email: "pippo2@example",
+		email: "pippo2@example.com",
 		emails: [{
 			address: "pippo2@example.com",
 			verified: false
@@ -235,7 +235,7 @@ if (Meteor.isClient) {
 	// User registered with service password with Verified email
 	var userPwd2V = {
 		username: Random.id(),
-		email: "pippo2@example",
+		email: "pippo2@example.com",
 		emails: [{
 			address: "pippo2@example.com",
 			verified: true
@@ -531,11 +531,44 @@ if (Meteor.isClient) {
 	var justWait = function(test, expect) {
 		return expect(function() {});
 	};
+	var registerWithPassword = function(user) {
+		return function(test, expect) {
+			Accounts.createUser({
+				username: user.username,
+				email: user.email,
+				password: user.profile.id,
+				profile: user.profile
+			}, PasswordAddedError(test, expect));
+		};
+	};
 	var pwdLogin = function(user) {
 		return function(test, expect) {
 			Meteor.loginWithPassword({
-				username: user.username
+				// use email instead of username because accounts-add-service does not
+				// replace username when adding a service (including password) to an
+				// account that already has a username.
+				email: user.email
 			}, user.profile.id, noError(test, expect));
+		};
+	};
+	var pwdLoginAdded = function(user) {
+		return function(test, expect) {
+			Meteor.loginWithPassword({
+				// use email instead of username because accounts-add-service does not
+				// replace username when adding a service (including password) to an
+				// account that already has a username.
+				email: user.email
+			}, user.profile.id, AlreadyExistingServiceAddedError(test, expect));
+		};
+	};
+	var pwdLoginMelded = function(user) {
+		return function(test, expect) {
+			Meteor.loginWithPassword({
+				// use email instead of username because accounts-add-service does not
+				// replace username when adding a service (including password) to an
+				// account that already has a username.
+				email: user.email
+			}, user.profile.id, AlreadyExistingServiceMeldedError(test, expect));
 		};
 	};
 	var registerService = function(serviceName, user) {
@@ -551,6 +584,14 @@ if (Meteor.isClient) {
 			test.equal(
 				error.reason,
 				"Service correctly added to the current user, no need to proceed!"
+			);
+		});
+	};
+	var PasswordAddedError = function(test, expect) {
+		return expect(function(error) {
+			test.equal(
+				error.reason,
+				'New login not needed. Service will be added to logged in user.'
 			);
 		});
 	};
@@ -993,6 +1034,112 @@ if (Meteor.isClient) {
 	testSequence.push(resetAll);
 	testAsyncMulti(
 		"accounts-meld - already logged in with service and add service and meld",
+		testSequence
+	);
+
+	var testServiceLoginPlusAddPasswordNoMeld = function(testSequence, users, userWithPasswordToAdd) {
+		// The first user in list will be used to perform the login test
+		var serviceName = _.keys(users[0].services)[0];
+		testSequence.push.apply(testSequence, [
+			// At first, makes tests with askBeforeMeld = false
+			resetAll,
+			registerService(serviceName, users[0]),
+			insertUsers(users),
+			assertUsersCount(users.length),
+			askBeforeMeld(false),
+			start3rdPartyLogin(serviceName),
+			login3rdParty,
+			loggedInAs(users[0]),
+			unregisterService(serviceName),
+			registerWithPassword(userWithPasswordToAdd),
+			pwdLogin(userWithPasswordToAdd),
+			loggedInAs(users[0]),
+			assertUsersCount(users.length),
+			logoutStep,
+			// Then, remakes same tests with askBeforeMeld = true
+			resetAll,
+			registerService(serviceName, users[0]),
+			insertUsers(users),
+			assertUsersCount(users.length),
+			askBeforeMeld(true),
+			start3rdPartyLogin(serviceName),
+			login3rdParty,
+			loggedInAs(users[0]),
+			unregisterService(serviceName),
+			registerWithPassword(userWithPasswordToAdd),
+			pwdLogin(userWithPasswordToAdd),
+			loggedInAs(users[0]),
+			assertUsersCount(users.length),
+			assertMeldActionsCount(0),
+			logoutStep,
+		]);
+	};
+	// No meld action is expected to be created here...
+	testSequence = [];
+	testServiceLoginPlusAddPasswordNoMeld(
+		testSequence,
+		[userFB1V, userFB2NV, userFB2V, userLO2NV, userLO2V, userPwd2NV],
+		userPwd1NV
+	);
+	testSequence.push(resetAll);
+	testAsyncMulti(
+		"accounts-meld - already logged in with service and add password (no meld)",
+		testSequence
+	);
+
+
+
+	var testServiceLoginPlusAddPasswordAndMeld = function(testSequence, users, userWithPasswordToAdd) {
+		// The first user in list will be used to perform the login test
+		var serviceName = _.keys(users[0].services)[0];
+		testSequence.push.apply(testSequence, [
+			// At first, makes tests with askBeforeMeld = false
+			resetAll,
+			registerService(serviceName, users[0]),
+			insertUsers(users),
+			assertUsersCount(users.length),
+			pwdLogin(userWithPasswordToAdd), // Adds resume service that marks account as pre-existing
+			logoutStep,
+			askBeforeMeld(false),
+			start3rdPartyLogin(serviceName),
+			login3rdParty,
+			loggedInAs(users[0]),
+			unregisterService(serviceName),
+			pwdLoginMelded(userWithPasswordToAdd),
+			loggedInAs(users[0]),
+			assertUsersCount(users.length - 1),
+			assertUsersMissing(userWithPasswordToAdd),
+			logoutStep,
+			// Then, remakes same tests with askBeforeMeld = true
+			resetAll,
+			registerService(serviceName, users[0]),
+			insertUsers(users),
+			assertUsersCount(users.length),
+			pwdLogin(userWithPasswordToAdd), // Adds resume service that marks account as pre-existing
+			logoutStep,
+			askBeforeMeld(true),
+			start3rdPartyLogin(serviceName),
+			login3rdParty,
+			loggedInAs(users[0]),
+			unregisterService(serviceName),
+			pwdLoginAdded(userWithPasswordToAdd),
+			loggedInAs(users[0]),
+			assertUsersCount(users.length),
+			assertMeldActionsCount(1),
+			assertMeldActionsCorrect(users[0], [userWithPasswordToAdd]),
+			logoutStep,
+		]);
+	};
+	// No meld action is expected to be created here...
+	testSequence = [];
+	testServiceLoginPlusAddPasswordAndMeld(
+		testSequence,
+		[userFB1V, userFB2NV, userFB2V, userLO2NV, userLO2V, userPwd1NV, userPwd2NV],
+		userPwd1NV
+	);
+	testSequence.push(resetAll);
+	testAsyncMulti(
+		"accounts-meld - already logged in with service and add password and meld",
 		testSequence
 	);
 }
