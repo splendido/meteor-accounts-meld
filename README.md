@@ -106,7 +106,7 @@ A big thank in advance to anyone contributing!
 
 
 <a name="Acknowledgements"/>
-#Acknowledgements
+# Acknowledgements
 
 Undeniably, the package [accounts-merge](https://atmospherejs.com/package/accounts-merge) together with discussions directly entertained with its author @lirbank played a big role in writing this package. Actually at the very beginning accounts-meld was not even conceived as a package itself: only after a bit of googling around and various thinking the decision was taken, mainly because there was quite a bit of work involved and different projects might had different peculiar purposes.
 
